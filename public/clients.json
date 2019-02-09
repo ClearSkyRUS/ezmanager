@@ -1,0 +1,60 @@
+[
+	{
+		"id": 0,
+		"name": "Вера",
+		"type": "Активный",
+		"tel": 79122565401,
+		"check": 1000,
+		"points": 270,
+		"gender": "f",
+		"sale": 10,
+		"key": "79122565401", 
+		"value":"79122565401",
+		"text": "Вера",
+		"adres":[
+			{
+				"street":"Фестивальная",
+				"number":"54",
+				"aport": null,
+				"pod": null,
+				"domophone": null
+			},
+			{
+				"street":"Фестивальная",
+				"number":"54",
+				"aport": "1",
+				"pod": "1",
+				"domophone": "1"
+			}
+		]
+	},
+	{
+		"id": 1,
+		"name": "Влад",
+		"type": "Неактивный",
+		"tel": 79127473760,
+		"check": 50401,
+		"points": 100000,
+		"gender": "m",
+		"sale": 10,
+		"key": "79127473760", 
+		"value":"79127473760",
+		"text": "Влад",
+		"adres":[
+			{
+				"street":"Фронтовая",
+				"number":"4",
+				"aport": "7",
+				"pod": "1",
+				"domophone": "7"
+			},
+			{
+				"street":"Фронтовая",
+				"number":"4",
+				"aport": "7",
+				"pod": "1",
+				"domophone": "7"
+			}
+		]
+	}
+]
