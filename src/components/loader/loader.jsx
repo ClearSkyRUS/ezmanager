@@ -1,12 +1,12 @@
 import React from 'react'
-import { Dimmer, Loader } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 
 const LoaderComp = () => (
-  <div>
+	<Segment>
       <Dimmer active inverted>
         <Loader inverted>Загрузка</Loader>
       </Dimmer>
-  </div>
+    </Segment>
 )
 
 export default LoaderComp

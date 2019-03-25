@@ -24,6 +24,10 @@ body {
 
 }
 
+.ui.very.basic.table .FlexImprotant {
+  display: flex!important;
+}
+
 .pusher {
 	height: 100%;
 }

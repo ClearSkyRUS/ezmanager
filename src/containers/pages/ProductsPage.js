@@ -1,8 +1,21 @@
-import ProductsPage from '../../components/pages/ProductsPage'
+import ProductsPage from 'components/pages/ProductsPage'
 
+import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as setProducts  from '../../actions/products';
+import ProductsActions  from 'actions/products';
+
+class ProductsListContainer extends React.Component {
+	render() {
+		const { products } = this.props;
+		if (!products) {
+			const { fetchProducts } = this.props;
+			fetchProducts();
+		}
+		return <ProductsPage {...this.props} />
+	}
+
+}
 
 const sortBy = (items, filter) => {
 	if(filter.filterBy === 'Все')
@@ -27,7 +40,8 @@ const mapStateToProps = ({ products, filter }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(setProducts, dispatch)
+  ...bindActionCreators(ProductsActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsPage);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsListContainer);

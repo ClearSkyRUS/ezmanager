@@ -1,9 +1,27 @@
-import DishsPage from '../../components/pages/DishsPage'
+import DishsPage from 'components/pages/DishsPage'
 
+import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as ProductsActions  from '../../actions/products';
-import * as DishsActions  from '../../actions/dishs';
+import DishsActions  from 'actions/dishs';
+import ProductsActions  from 'actions/products';
+
+class DishsListContainer extends React.Component {
+	render() {
+		const { products, dishs } = this.props;
+		if (!products) {
+			const { fetchProducts } = this.props;
+			fetchProducts();
+		}
+		if (!dishs) {
+			const { fetchDishs } = this.props;
+			fetchDishs();
+		}
+		return <DishsPage {...this.props} />
+	}
+
+}
+
 
 const sortBy = (items, filter) => {
 	if(filter.filterBy === 'Все')
@@ -34,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(ProductsActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DishsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(DishsListContainer);

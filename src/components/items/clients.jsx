@@ -1,63 +1,70 @@
 import React from 'react';
-import { Button, Image, List, Icon, Popup } from 'semantic-ui-react';
-import Loader from '../loader/loader';
+import { Button, Image, List, Icon, Popup, Modal, Label } from 'semantic-ui-react';
+import Loader from 'components/loader/loader';
 import axios from 'axios';
+import { ClientModalContent } from '../popupContent/client';
 
-
-const ClientItem = ({ client }) => (
+const ClientItem = ({ client, onUp, onRemove }) => (
     <List.Item>
       <List.Content floated='right'>
-        <Button>Add</Button>
+        <Modal trigger={<Button size='small' circular icon='edit' />} closeIcon>
+          <Modal.Header>Удалить/изменить клиента</Modal.Header>
+          <Modal.Content scrolling>
+            <ClientModalContent client = {client} onUp = {onUp} onRemove = {onRemove} />
+          </Modal.Content>
+        </Modal>
       </List.Content>
-      {(client.gender === "f")
+      {(client.gender === "female")
         ? <Image avatar src='https://react.semantic-ui.com/images/avatar/small/lena.png' />
         : <Image avatar src='https://react.semantic-ui.com/images/avatar/small/mark.png' />}
-      <List.Content>{client.name + client.sale + "%"}</List.Content>
-       <List.Content style={{ paddingTop: "5px"}}> {"Счет: " + client.check}  <Icon name="rub" /> { client.points } <Icon name="bitcoin" /> </List.Content>
-       <List.Content style={{ paddingTop: "5px" }}> <Icon name="mobile alternate"/> {client.tel} 
-      </List.Content>
-      <List.Content style={{ paddingTop: "5px" }}>
-       <Icon name="home" /> {"ул." + client.adres[0].street + ", д." + client.adres[0].number}
-       {(client.adres[0].aport != null)
-        ? (", кв." +client.adres[0].aport)
-        : ''}
-        {(client.adres[0].pod != null)
-        ? (", под." +client.adres[0].pod)
-        : ''}
-         {(client.adres[0].domophone != null)
-        ? (", домоф." +client.adres[0].domophone)
-        : ''}
-      </List.Content>
-
+      <List.Content>{client.name}</List.Content>
+       <List.Content style={{ paddingTop: "5px"}}>
+        <Label.Group size='mini'>
+          <Label basic>
+            {"Счет: " + client.check}  <Icon name="rub" /> { client.points } <Icon name="bitcoin" /> { " " + client.sale + " % "}
+          </Label>
+          <Label basic>
+            <Icon name="mobile alternate"/> {client.tel} 
+          </Label>
+          <Label basic>
+            <Icon name="home" /> {"ул." + client.adres[0].street + ", д." + client.adres[0].number}
+             {(client.adres[0].aport !== "")
+              ? (", кв." +client.adres[0].aport)
+              : ''}
+              {(client.adres[0].pod !== "")
+              ? (", под." +client.adres[0].pod)
+              : ''}
+               {(client.adres[0].domophone !== "")
+              ? (", домоф." +client.adres[0].domophone)
+              : ''}
+          </Label>
+        </Label.Group>
+       </List.Content>
     </List.Item>
 )
 
-const ListClients = ({ clients, setClients }) => {
-  if (clients == null) {
-      axios.get('/clients.json').then(({ data }) => {
-        setClients(data);
-      })
-    return ( <Loader /> )
-    }
-
+const ListClients = ({ clients, onAdd, onUp, onRemove }) => {
+  if (clients)
   return(
     <div>
       <List divided verticalAlign='middle'>
           {clients.map((client, i) =>
-            <ClientItem key={i} client = {client} /> )}
+            <ClientItem key={i} client = {client} onUp = {onUp} onRemove = {onRemove} /> )}
       </List>
-      <AddNewPopupButton />
+      <AddNewPopupButton onAdd = {onAdd} />
     </div>
   )
+  return ( <Loader /> )
 }
 
-const AddNewPopupButton = ({types,  products}) => {
+const AddNewPopupButton = ({ onAdd }) => {
   return (
-    <Popup
-      trigger={ <Button className = "addTogler" circular color='google plus' icon='plus' /> }
-      content={ <div/> }
-      on='click'
-    />
+     <Modal trigger={<Button className = "addTogler" circular color='google plus' icon='plus' />} closeIcon>
+      <Modal.Header>Новый клиент</Modal.Header>
+      <Modal.Content scrolling>
+        <ClientModalContent onAdd = {onAdd} />
+      </Modal.Content>
+    </Modal>
    )
 };
 

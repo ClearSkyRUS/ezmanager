@@ -7,8 +7,7 @@ import './index.css';
 
 import App from './containers/App';
 
-import createStore from './store';
-const store = createStore();
+import store from './store';
 
 ReactDOM.render(
 	<Provider store={store}>

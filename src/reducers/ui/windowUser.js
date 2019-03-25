@@ -1,7 +1,8 @@
 const initialState = {
 	desctop: window.innerWidth>600,
 	visibleSidebar: window.innerWidth>600,
-	menuPosition: document.location.pathname
+	menuPosition: document.location.pathname,
+    CheckChosen: '',
 };
 
 export default (state = initialState, action) => {

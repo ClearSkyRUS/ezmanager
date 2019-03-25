@@ -1,8 +1,21 @@
-import ClientsPage from '../../components/pages/ClientsPage'
+import ClientsPage from 'components/pages/ClientsPage'
 
+import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as setClients  from '../../actions/clients';
+import setClients from 'actions/clients';
+
+class ClientsListContainer extends React.Component {
+	render() {
+		const { clients } = this.props;
+		if (!clients) {
+			const { fetchClients } = this.props;
+			fetchClients();
+		}
+		return <ClientsPage {...this.props} />
+	}
+
+}
 
 const sortBy = (items, filter) => {
 	if(filter.filterBy === 'Все')
@@ -31,4 +44,4 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(setClients, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClientsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClientsListContainer);

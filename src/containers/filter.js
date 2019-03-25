@@ -1,7 +1,7 @@
-import Filter from '../components/filter/filter'
+import Filter from 'components/filter/filter'
 
 import { bindActionCreators } from 'redux';
-import * as setFilter from '../actions/filter';
+import * as setFilter from 'actions/filter';
 import { connect } from 'react-redux';
 
 

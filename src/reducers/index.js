@@ -7,6 +7,7 @@ import clients from './objects/clients';
 import orders from './objects/orders';
 import programs from './objects/programs';
 import days from './objects/days';
+import workdata from './heavy/workdata';
 
 export default combineReducers({
 		products,
@@ -16,5 +17,6 @@ export default combineReducers({
 		windowUser,
 		filter,
 		orders,
-		programs
+		programs,
+		workdata
 });

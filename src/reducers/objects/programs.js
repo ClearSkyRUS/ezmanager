@@ -8,6 +8,27 @@ export default (state = InitState, action) => {
 			return {
 				items: action.payload
 			};
+		case 'REMOVE_PROGRAM':
+			return {
+				...state,
+				items: state.items.filter(item => item._id !== action.payload)
+			};
+		case 'ADD_PROGRAM':
+			return {
+				...state,
+				items: [...state.items, action.payload]
+			};
+		case 'CHANGE_PROGRAM':
+			return {
+				...state, 
+			        items: state.items.map(item => {
+			            if (item._id === action.payload._id) {
+			               return action.payload;
+			            }
+
+			            return item;
+			        }),
+			};
 		default:
 			return state;
 	}

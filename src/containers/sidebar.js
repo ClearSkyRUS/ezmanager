@@ -1,5 +1,5 @@
-import mSideBar from '../components/menu/sideBar'
-import * as sideBarActions from '../actions/windowUser';
+import mSideBar from 'components/menu/sideBar'
+import * as sideBarActions from 'actions/windowUser';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 

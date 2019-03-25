@@ -1,9 +1,27 @@
-import DaysPage from '../../components/pages/DaysPage'
+import DaysPage from 'components/pages/DaysPage'
 
+import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as setDays from '../../actions/days';
-import * as DishsActions from '../../actions/dishs';
+import DaysActions from 'actions/days';
+import DishsActions from 'actions/dishs';
+
+class DayListContainer extends React.Component {
+	render() {
+		const { days, dishs } = this.props;
+		if (!days) {
+			const { fetchDays } = this.props;
+			fetchDays();
+		}
+		if (!dishs) {
+			const { fetchDishs } = this.props;
+			fetchDishs();
+		}
+		return <DaysPage {...this.props} />
+	}
+};
+
+
 
 const sortBy = (items, filter) => {
 	if(filter.filterBy === 'Все')
@@ -31,7 +49,7 @@ const mapStateToProps = ({ dishs, days, filter }) => ({
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(DishsActions, dispatch),
-  ...bindActionCreators(setDays, dispatch)
+  ...bindActionCreators(DaysActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DaysPage);
+export default connect(mapStateToProps, mapDispatchToProps)(DayListContainer);

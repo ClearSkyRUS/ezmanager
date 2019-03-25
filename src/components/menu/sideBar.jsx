@@ -13,7 +13,7 @@ const SidebarItems = ({ changeMenu, menuState }) => (
             <Link to="/" onClick={changeMenu.bind(this, '/')}>
               <Menu.Item 
                 active={menuState === '/'}>
-                <Image src='https://react.semantic-ui.com/logo.png' size='mini' centered/>
+                <Image src='logo.png' size='mini' centered/>
               </Menu.Item>
             </Link>
              <Link to="/orders" onClick={changeMenu.bind(this, '/orders')}>
@@ -69,7 +69,7 @@ const MobileSidebar = ({visibleSidebar, setVisbleSideBar, changeMenu, menuState 
             >
             <SidebarItems  menuState = {menuState} changeMenu = {changeMenu}/>
     </Sidebar>
-    <Icon size = 'small' onClick = {setVisbleSideBar.bind(this, true)} name="angle right" style={{  position: "absolute", zIndex: "101", top: "50%" }}/>
+    <Icon size = 'small' onClick = { setVisbleSideBar.bind(this, true) } name="angle right" style={{  position: "absolute", zIndex: "101", top: "50%" }}/>
   </div>
 )
 

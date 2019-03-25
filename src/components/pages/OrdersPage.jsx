@@ -1,17 +1,17 @@
 import React from 'react';
-import Filter from '../../containers/filter';
-import ListOrders from '../items/orders';
+import Filter from 'containers/filter';
+import ListOrders from 'components/items/orders';
 import { Segment } from 'semantic-ui-react';
 
-const ClientsPage = ({ orders, clients, setOrders, setClients  }) => (
+const OrdersPage = ({ orders, clients, programs, fetchRemoveOrder, fetchAddOrder, fetchUpOrder   }) => (
                   <div>
                   	<Segment>
                       <Filter />
                     </Segment>
                     <Segment>
-  						<ListOrders orders = {orders} clients = {clients} setOrders ={setOrders} setClients = {setClients} />
+  						<ListOrders orders = {orders} clients = {clients} programs ={programs} onRemove = {fetchRemoveOrder} onAdd = {fetchAddOrder} onUp = {fetchUpOrder} />
                     </Segment>
                   </div>
 );
 
-export default ClientsPage;
+export default OrdersPage;

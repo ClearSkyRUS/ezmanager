@@ -1,18 +1,18 @@
 import React from 'react'
-import { Card, Icon, Comment, Popup, Button } from 'semantic-ui-react'
-import Loader from '../loader/loader';
+import { Card, Icon, Comment, Modal, Button } from 'semantic-ui-react'
+import Loader from 'components/loader/loader';
 import { AddNewPopupContent, ChangePopupContent} from '../popupContent/product';
-import axios from 'axios';
 import uniqBy from 'lodash/uniqBy';
 
 
-const AddNewPopupButton = ({ products }) => {
+const AddNewPopupButton = ({ products, onAdd }) => {
   return (
-    <Popup
-      trigger={ <Button className = "addTogler" circular color='google plus' icon='plus' /> }
-      content={ <AddNewPopupContent products = {products}/> }
-      on='click'
-    />
+    <Modal trigger={<Button className = "addTogler" circular color='google plus' icon='plus' />} closeIcon>
+      <Modal.Header>Добавте продукт</Modal.Header>
+      <Modal.Content scrolling>
+        <AddNewPopupContent products = {products} onAdd = { onAdd } />
+      </Modal.Content>
+    </Modal>
    )
 };
 
@@ -30,47 +30,35 @@ const ProductCard = ({ product }) => {
     )
 }
 
-const ListProducts = ({ products, allProducts }) => {
+const ListProducts = ({ products, allProducts, onRemove, onUp }) => {
   return (
     <Card.Group centered itemsPerRow={8}>
           {products.map((product, i) =>
-                    <Popup key = {i+1}
-                    trigger={ 
-                        <Comment.Group className = "product">
+                  <Modal key={i} trigger={
+                      <Comment.Group className = "product" >
                           <ProductCard product={product} />
                         </Comment.Group>}
-                    content={ <ChangePopupContent product = {product} types = {uniqBy(allProducts, 'type')} /> }
-                    position='bottom left'
-                    on='click'
-                    />
+                        closeIcon >
+                    <Modal.Header>Изменить/Удалить продукт</Modal.Header>
+                    <Modal.Content scrolling>
+                       <ChangePopupContent product = {product} types = {uniqBy(allProducts, 'type')} onRemove = {onRemove} onUp = { onUp } />
+                    </Modal.Content>
+                  </Modal>
           )}
     </Card.Group>
   )
 }
 
-const CardProduct = ({ products, setProducts, allProducts }) => {
+const CardProduct = ({ products, onRemove, allProducts, onAdd, onUp }) => {
 
-  if (products == null) {
-    axios.get('/products.json').then(({ data }) => {
-      setProducts(data);
-    })
-    return (  
-      <Comment.Group>
-          <Comment>
-            <Comment.Content >
-              <Loader />
-            </Comment.Content>
-          </Comment>
-      </Comment.Group>
-    )
-  }
-
-  return (
-    <div>
-        <ListProducts products = {products} allProducts = { allProducts } />
-        <AddNewPopupButton products = {uniqBy(allProducts, 'type')} />
-    </div>
-  )
+  if (products)
+     return (
+        <div>
+            <ListProducts products = {products} allProducts = { allProducts } onRemove = { onRemove } onUp = { onUp } />
+            <AddNewPopupButton products = {uniqBy(allProducts, 'type')} onAdd = { onAdd }  />
+        </div>
+      )
+  return (<Loader />)
 }
   
 export default CardProduct
