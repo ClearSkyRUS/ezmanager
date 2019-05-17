@@ -34,6 +34,12 @@ const SidebarItems = ({ changeMenu, menuState }) => (
                 Программы
               </Menu.Item>
             </Link>
+            <Link to="/daysquery" onClick={changeMenu.bind(this, '/daysquery')}>
+              <Menu.Item 
+                active={menuState === '/daysquery'}>
+                Очередь дней
+              </Menu.Item> 
+            </Link>
             <Link to="/days" onClick={changeMenu.bind(this, '/days')}>
               <Menu.Item 
                 active={menuState === '/days'}>
@@ -44,6 +50,12 @@ const SidebarItems = ({ changeMenu, menuState }) => (
               <Menu.Item 
                 active={menuState === '/dishs'}>
                 Блюда
+              </Menu.Item>
+            </Link>
+            <Link to="/dishTypes" onClick={changeMenu.bind(this, '/dishTypes')}>
+              <Menu.Item 
+                active={menuState === '/dishTypes'}>
+                Типы блюд
               </Menu.Item>
             </Link>
             <Link to="/products" onClick={changeMenu.bind(this, '/products')}>

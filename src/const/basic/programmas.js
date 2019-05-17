@@ -1,10 +1,8 @@
 const ProgramMas = 	{
 		"title": '',
-		"type": 'Общая',
+		"public": false,
 		"image": '',
-		"price": 0,
 		"settings": [],
-		"portions":  [],
 		"options":  []
 	}
 

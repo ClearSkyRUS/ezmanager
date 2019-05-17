@@ -18,9 +18,18 @@ const WorkDataActions = {
       		dispatch(WorkDataActions.setWorkData(data));
     	});
   	},
-  	setBuyListChecked: product => dispatch => {
-      	dispatch(WorkDataActions.ChangePropsBuyListChecked(product));
-  	},
+  	setBuyListChecked: (product) => ({
+		type: 'SET_CHECKED_PRODUCT',
+		payload: product
+	}),
+  	setDishReady: (dish) => ({
+		type: 'SET_CHECKED_DISH',
+		payload: dish
+	}),
+  	showHideTechMap: (dish) => ({
+		type: 'SET_VISIBLE_MAP',
+		payload: dish
+	}),
 };
 
 

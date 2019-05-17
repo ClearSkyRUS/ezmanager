@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, Icon, Accordion, List, Grid, Checkbox, Pagination, Card, Label } from 'semantic-ui-react';
+import { Button, Form, Input } from 'semantic-ui-react';
 import { ClientModel } from 'const';
 
 
@@ -48,9 +48,10 @@ class ClientModalContent extends Component {
 setCheck = (e) => {this.setState({client: { ...this.state.client, check: parseFloat(e.target.value)}})}
 setPoints = (e) => {this.setState({client: { ...this.state.client, points: parseFloat(e.target.value)}})}
 setSale = (e) => {this.setState({client: { ...this.state.client, sale: parseFloat(e.target.value)}})}
+setTime = (e) => {this.setState({client: { ...this.state.client, time: e.target.value}})}
 render() {
       const { client } = this.state;
-      const { onAdd, onUp, onRemove } = this.props;
+      const { onAdd, onUp, onRemove, ApiPath } = this.props;
       return (
       	<Form>
             <Form.Group widths='equal'>
@@ -117,19 +118,24 @@ render() {
               onChange={this.setDomophone}
               placeholder='Домофон' 
               style = {{width: "100px"}}/>
+              <Form.Field control={Input} 
+              value={client.time}
+              onChange={this.setTime}
+              placeholder='Время' 
+              style = {{width: "100px"}}/>
              </Form.Group>
 
             {(onAdd)
-              ? <Button positive onClick = {onAdd.bind(this, this.state.client)} style={{ cursor: 'pointer',   float: 'right' }} >
+              ? <Button positive onClick = {onAdd.bind(this, ApiPath, this.state.client)} style={{ cursor: 'pointer',   float: 'right' }} >
                   Добавить
                 </Button>
               : '' }
               {(onUp && onRemove)
                 ? <div>
-                    <Button positive onClick = {onUp.bind(this, this.state.client)} style={{ cursor: 'pointer',   float: 'right' }} >
+                    <Button positive onClick = {onUp.bind(this, ApiPath, this.state.client._id, this.state.client)} style={{ cursor: 'pointer',   float: 'right' }} >
                         Изменить
                     </Button>
-                    <Button negative onClick = {onRemove.bind(this, this.state.client._id)} style={{ cursor: 'pointer',   float: 'right' }} >
+                    <Button negative onClick = {onRemove.bind(this, ApiPath, this.state.client._id)} style={{ cursor: 'pointer',   float: 'right' }} >
                         Удалить
                     </Button>
                   </div>

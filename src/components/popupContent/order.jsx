@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, Icon, Accordion, List, Grid, Checkbox, Pagination, Card, Label, Table, Popup } from 'semantic-ui-react';
+import { Button, Form, Input, Icon, Label, Table, Popup } from 'semantic-ui-react';
 import { OrderModel } from 'const';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
@@ -28,7 +28,7 @@ class OrderModalContent extends Component {
       order.date = (formatDate(date))
     }
     var awibleDate = new Date()
-    if (awibleDate.getHours() > 17) {
+    if (awibleDate.getHours() > 21) {
       awibleDate.setDate(awibleDate.getDate()+2)
     } else {
       awibleDate.setDate(awibleDate.getDate()+1)
@@ -56,7 +56,6 @@ setCartItemName = (name) => {
      newData[0].name =  name;
     this.setState({newData})
 }
-setTime = (e) => {this.setState({order: { ...this.state.order, time: e.target.value}})} 
 setProgram = (e, {value}) => {
    var newData = [...this.state.order.cart];
      newData[0].program =  this.props.programs.find(x => x.value === value )._id;
@@ -64,7 +63,7 @@ setProgram = (e, {value}) => {
     this.setState({program: this.props.programs.find(x => x.value === value )})
 }
 setOption = (item, option) => {
-  item.option = option.title;
+  item.option = option.cal;
   if (item.quanity !== 0) {
     item.price = option.price * item.quanity
   } else {
@@ -76,7 +75,7 @@ setOption = (item, option) => {
 setQuanity = (quanity) => {
   var newData = [...this.state.order.cart];
   if (quanity !== 0) {
-    if (newData[0].quanity != 0) 
+    if (newData[0].quanity !== 0) 
       newData[0].price = newData[0].price/newData[0].quanity 
 
      newData[0].quanity =  parseFloat(quanity);
@@ -132,18 +131,12 @@ calculateTotal = () => {
 }
 render() {
       const { order, program, client } = this.state;
-      const { clients, programs, onAdd, onUp, onRemove } = this.props;
+      const { clients, programs, onAdd, onUp, onRemove, ApiPath } = this.props;
       return (
       	<Form size='tiny'>
           <Label basic  style = {{marginBottom: "10px"}} >{"Дата заказа: " + order.date}</Label>
           <Form.Group>
             <Form.Select value = {client.value} options={clients} onChange={ this.setClient } placeholder='Клиент...'  search selection />
-            <Form.Field control={Input} 
-              value={order.time}
-              onChange={this.setTime}
-              placeholder='Время'
-              icon='clock outline' 
-              style = {{width: "100px"}} />
           </Form.Group>
           <Form.Group>
             <Table basic='very'>
@@ -155,7 +148,7 @@ render() {
                     <Table.Cell>
                       {(program.value !== '')
                         ? program.options.map((option, j) =>
-                            <Button key = {j} size='mini' onClick={e => this.setOption(item, option)} active={item.option === option.title} basic >{option.title} </Button>
+                            <Button key = {j} size='mini' onClick={e => this.setOption(item, option)} active={item.option === option.cal} basic >{option.cal} </Button>
                           )
                         : ''}
                     </Table.Cell>
@@ -200,16 +193,16 @@ render() {
             </span>
             <span style={{ marginRight: "5px", marginLeft: "auto"}} > 
             {(onAdd)
-              ? <Button positive onClick = {onAdd.bind(this, this.state.order)} style={{ cursor: 'pointer',   float: 'right' }} >
+              ? <Button positive onClick = {onAdd.bind(this, ApiPath, this.state.order)} style={{ cursor: 'pointer',   float: 'right' }} >
                   Добавить
                 </Button>
               : '' }
               {(onUp && onRemove)
                 ? <div>
-                    <Button positive onClick = {onUp.bind(this, this.state.order,  this.state.order.status)} style={{ cursor: 'pointer',   float: 'right' }} >
+                    <Button positive onClick = {onUp.bind(this, ApiPath, this.state.order._id, this.state.order)} style={{ cursor: 'pointer',   float: 'right' }} >
                         Изменить
                     </Button>
-                    <Button negative onClick = {onRemove.bind(this, this.state.order._id)} style={{ cursor: 'pointer',   float: 'right' }} >
+                    <Button negative onClick = {onRemove.bind(this, ApiPath, this.state.order._id)} style={{ cursor: 'pointer',   float: 'right' }} >
                         Удалить
                     </Button>
                   </div>

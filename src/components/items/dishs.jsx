@@ -1,75 +1,56 @@
 import React from 'react'
-import { Card, Icon, Modal, Button, Image, List } from 'semantic-ui-react'
+import { Icon, Modal, Button, Image, List } from 'semantic-ui-react'
 import Loader from 'components/loader/loader';
 import uniqBy from 'lodash/uniqBy';
-import { AddNewPopupContent, ChangePopupContent} from '../popupContent/dish';
+import { DishModal } from '../popupContent/dish';
 
 
-const ListDishs = ({ dishs, allDishs, products, onUp, onRemove }) => (
+const ListDishs = ({ dishs, products, ApiPath, types, onUp, onRemove }) => (
   <div>
-    <Card.Group centered >
+    <List celled>
           {dishs.map((dish, i) =>
-            <Card key = {i} >
-              <Card.Content>
-                {(dish.image !== '')
-                 ? <Image floated='right' size='mini' src={dish.image} />
-                 : <Image floated='right' size='mini' src='https://react.semantic-ui.com/images/wireframe/image.png' />}
-                <Card.Header>{dish.title} <span style={{fontSize: '12px', color: 'rgba(0,0,0,.4)'}}className='date'>{dish.type}</span>
-                </Card.Header>
-                <Card.Meta>
-                  <List>
-                     {dish.productslist.map((product, i) =>
-                        <List.Item key={i} style={{  display: "flex"}}>
-                          {products.find(x => x._id === product.id ).title + " " + product.gramm + " "}
-                          {(product.cold)
-                            ? <List.Icon size='tiny' name='recycle' /> 
-                            : ''}
-                          {(product.hot)
-                            ? <List.Icon size='tiny' name='hotjar' /> 
-                            : ''}
-                          {(product.ganes)
-                            ? <List.Icon size='tiny' name='expand arrows alternate' /> 
-                            : ''}    
-                        </List.Item>
-                      )}
-                  </List>
-                </Card.Meta>
-              </Card.Content>
-              <Card.Content extra>
-               {dish.price}<Icon name = 'ruble sign'/>     <Icon name ='pie graph' />   {dish.prot}/{dish.fat}/{dish.carb} <Icon name ='weight' />  {dish.gramms}
-                 <Modal trigger={<Icon name= 'signup' style={{ cursor: 'pointer',   float: 'right' }}/>} closeIcon>
-                  <Modal.Header>Измените/Удалите блюдо</Modal.Header>
+             <Modal key = {i} trigger={
+                  <List.Item>
+                    <List.Content floated='right'>
+                      {dish.price.toFixed(0)}<Icon name = 'ruble sign'/>     
+                    </List.Content>
+                    {(dish.image !== '')
+                    ? <Image avatar src={dish.image} />
+                    : <Image avatar src='https://react.semantic-ui.com/images/wireframe/image.png' />}
+                    <List.Content> 
+                      <List.Header>{dish.title} <span style={{fontSize: '12px', color: 'rgba(0,0,0,.4)'}}className='date'>{dish.type.title}</span></List.Header>
+                      <Icon name ='pie graph' />   {dish.prot.toFixed(0)}/{dish.fat.toFixed(0)}/{dish.carb.toFixed(0)}
+                    </List.Content>
+                  </List.Item>} closeIcon> 
+             <Modal.Header>Измените/Удалите блюдо</Modal.Header>
                   <Modal.Content scrolling>
-                    <ChangePopupContent dish = {dish} types = {uniqBy(allDishs, 'type')} products = {products} onUp = {onUp} onRemove = {onRemove} />
+                    <DishModal dish = {dish} types = {types} ApiPath={ApiPath} products = {products} onUp = {onUp} onRemove = {onRemove} />
                   </Modal.Content>
-                </Modal>
-              </Card.Content>
-            </Card>
+              </Modal>
           )}
-    </Card.Group>
+    </List>
   </div>
 )
 
 
+const CardDishs = ({ dishs, products, ApiPath, types, onAdd, onUp, onRemove }) => {
 
-const CardDishs = ({ allDishs, products, dishs, onAdd, onUp, onRemove }) => {
-
-    if (products && dishs)
+    if (dishs)
       return (
         <div>
-            <ListDishs dishs = {dishs} allDishs = {allDishs} products = {products} onUp = {onUp} onRemove = {onRemove} />
-            <AddNewPopupButton types = {uniqBy(allDishs, 'type')} products = {products} onAdd = {onAdd} />
+            <ListDishs dishs = {dishs} types = {types} ApiPath={ApiPath} products = {products} onUp = {onUp} onRemove = {onRemove} />
+            <AddNewPopupButton types = {types} products = {products} ApiPath={ApiPath} onAdd = {onAdd} />
         </div>
       )
      return ( <Loader /> )
 }
 
-const AddNewPopupButton = ({types,  products, onAdd}) => {
+const AddNewPopupButton = ({types,  products, ApiPath, onAdd}) => {
   return (
     <Modal trigger={<Button className = "addTogler" circular color='google plus' icon='plus' />} closeIcon>
       <Modal.Header>Добавте блюдо</Modal.Header>
       <Modal.Content scrolling>
-        <AddNewPopupContent types = {types} products = {products} onAdd = { onAdd } />
+        <DishModal types = {types} products = {products} ApiPath={ApiPath} onAdd = { onAdd } />
       </Modal.Content>
     </Modal>
    )

@@ -3,19 +3,16 @@ import DishsPage from 'components/pages/DishsPage'
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import DishsActions  from 'actions/dishs';
-import ProductsActions  from 'actions/products';
+import ItemsActions  from 'actions/items';
+
+const ApiPath = 'dishs';
 
 class DishsListContainer extends React.Component {
 	render() {
-		const { products, dishs } = this.props;
-		if (!products) {
-			const { fetchProducts } = this.props;
-			fetchProducts();
-		}
+		const { dishs } = this.props;
 		if (!dishs) {
-			const { fetchDishs } = this.props;
-			fetchDishs();
+			const { fetchItems } = this.props;
+			fetchItems(ApiPath);
 		}
 		return <DishsPage {...this.props} />
 	}
@@ -40,16 +37,16 @@ const sortBySerch = (items, filter) => {
 	);
 }
 
-const mapStateToProps = ({ dishs, products, filter }) => ({
+const mapStateToProps = ({ dishs, filter }) => ({
 	dishs: dishs.items && sortBy(dishs.items, filter ),
-  	allDishs: dishs.items,
-  	products: products.items
+	products: dishs.products,
+	types: dishs.types,
+	ApiPath: ApiPath
 });
 
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(DishsActions, dispatch),
-  ...bindActionCreators(ProductsActions, dispatch),
+  ...bindActionCreators(ItemsActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DishsListContainer);

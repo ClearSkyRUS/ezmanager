@@ -1,5 +1,6 @@
 const clientModel = 	{
 		"name": '',
+		"time": '',
 		"type": 'Активный',
 		"tel": '',
 		"check": 0,

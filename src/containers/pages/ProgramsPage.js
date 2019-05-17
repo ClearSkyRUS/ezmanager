@@ -3,25 +3,16 @@ import ProgramsPage from 'components/pages/ProgramsPage'
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ProgramsActions  from 'actions/programs';
-import DaysActions from 'actions/days';
-import DishsActions from 'actions/dishs';
+import ItemsActions  from 'actions/items';
 
+const ApiPath = 'programs';
 
 class ProgramListContainer extends React.Component {
 	render() {
-		const { programs, dishs, days } = this.props;
+		const { programs } = this.props;
 		if (!programs){
-			const { fetchPrograms } = this.props;
-			fetchPrograms();
-		}
-		if (!days) {
-			const { fetchDays } = this.props;
-			fetchDays();
-		}
-		if (!dishs) {
-			const { fetchDishs } = this.props;
-			fetchDishs();
+			const { fetchItems } = this.props;
+			fetchItems(ApiPath);
 		}
 		return <ProgramsPage {...this.props} />
 	}
@@ -45,17 +36,14 @@ const sortBySerch = (items, filter) => {
 	);
 }
 
-const mapStateToProps = ({ programs, dishs, days, filter }) => ({
-  	programs: programs.items && sortBy(programs.items, filter ),
-  	dishs: dishs.items,
-  	days: days.items,
-  	allPrograms: programs.items
+const mapStateToProps = ({ programs, filter }) => ({
+  	programs: programs.items,
+  	settings: programs.settings,
+  	ApiPath: ApiPath
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(ProgramsActions, dispatch),
-  ...bindActionCreators(DaysActions, dispatch),
-  ...bindActionCreators(DishsActions, dispatch)
+  ...bindActionCreators(ItemsActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProgramListContainer);

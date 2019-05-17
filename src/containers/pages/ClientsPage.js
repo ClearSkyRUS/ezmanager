@@ -3,14 +3,16 @@ import ClientsPage from 'components/pages/ClientsPage'
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import setClients from 'actions/clients';
+import ItemsActions  from 'actions/items';
+
+const ApiPath = 'clients';
 
 class ClientsListContainer extends React.Component {
 	render() {
 		const { clients } = this.props;
 		if (!clients) {
-			const { fetchClients } = this.props;
-			fetchClients();
+			const { fetchItems } = this.props;
+			fetchItems(ApiPath);
 		}
 		return <ClientsPage {...this.props} />
 	}
@@ -37,11 +39,12 @@ const sortBySerch = (items, filter) => {
 
 const mapStateToProps = ({ clients, filter}) => ({
 	clients: clients.items && sortBy(clients.items, filter ),
-  	allClients: clients.items
+  	allClients: clients.items,
+  	ApiPath: ApiPath
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(setClients, dispatch)
+  ...bindActionCreators(ItemsActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientsListContainer);

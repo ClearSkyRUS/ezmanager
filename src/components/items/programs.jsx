@@ -1,48 +1,48 @@
 import React from 'react'
-import { Card, Icon, Popup, Button, Image, List, Modal } from 'semantic-ui-react'
+import { Card, Icon, Button, Modal, List } from 'semantic-ui-react'
 import Loader from 'components/loader/loader';
 import { ModalProgram } from '../popupContent/program';
 
 
-const CardProgram = ({ program, dishs, days, onUp, onRemove }) => (
-            <Card>
-              <Card.Content>
-                <Card.Header>{ program.title }</Card.Header>
-              </Card.Content>
-              <Card.Content extra>
-                 <Modal trigger={<Icon name= 'signup' style={{ cursor: 'pointer',   float: 'right' }}/>} closeIcon>
-                  <Modal.Header>Изменить/удалить программу</Modal.Header>
-                  <Modal.Content scrolling>
-                    <ModalProgram program = { program } dishs={ dishs } days = { days } onUp = { onUp } onRemove = { onRemove } />
-                  </Modal.Content>
-                </Modal>
-              </Card.Content>
-            </Card>
-)
+const ProgramItem = ({ program, settings, ApiPath, onUp, onRemove }) => (
+  <Modal size='large' trigger={
+            <List.Item>
+              <List.Content floated="right">
+              </List.Content>
+              <List.Content> 
+                <List.Header>{ program.title }</List.Header>
+              </List.Content>
+            </List.Item> } closeIcon>
+    <Modal.Header>Изменить/удалить программу</Modal.Header>
+    <Modal.Content scrolling>
+      <ModalProgram program = { program } ApiPath ={ApiPath} settings = {settings} onUp = { onUp } onRemove = { onRemove } />
+    </Modal.Content>
+  </Modal>
+) 
 
 
 
-const ProgramsList = ({ programs, days, dishs, onAdd, onUp, onRemove }) => {
+const ProgramsList = ({ programs, settings, ApiPath, onAdd, onUp, onRemove }) => {
 
-    if (programs && dishs && days)
+    if (programs)
       return (
         <div>
-              <Card.Group centered >
+              <List celled >
                 {programs.map((program, i) =>
-                <CardProgram key={i} program={program} dishs={ dishs } days = {days} onUp = {onUp} onRemove = {onRemove}/> )}
-              </Card.Group>
-                <AddNewPopupButton dishs={ dishs } days = {days} onAdd={ onAdd } />
+                <ProgramItem key={i} program={program} settings={ settings } ApiPath={ApiPath} onUp = {onUp} onRemove = {onRemove}/> )}
+              </List>
+                <AddNewPopupButton settings={ settings } onAdd={ onAdd } ApiPath={ApiPath} />
         </div>
       )
-     return ( <Loader /> )
+    return ( <Loader /> )
 }
 
-const AddNewPopupButton = ({dishs, days, onAdd}) => {
+const AddNewPopupButton = ({settings, ApiPath, onAdd}) => {
   return (
     <Modal trigger={<Button className = "addTogler" circular color='google plus' icon='plus' />} closeIcon>
       <Modal.Header>Добавте программу</Modal.Header>
       <Modal.Content scrolling>
-        <ModalProgram dishs={ dishs } days = {days} onAdd={ onAdd } />
+        <ModalProgram settings={ settings } ApiPath ={ApiPath} onAdd={ onAdd } />
       </Modal.Content>
     </Modal>
    )

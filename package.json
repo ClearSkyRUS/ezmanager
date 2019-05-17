@@ -55,6 +55,7 @@
     "react-easy-swipe": "0.0.17",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
+    "react-textarea-autosize": "^7.1.0",
     "reactstrap": "^7.0.2",
     "recharts": "^1.4.2",
     "redux": "^4.0.1",
@@ -134,5 +135,15 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClearSkyRUS/ezmanger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ClearSkyRUS/ezmanger/issues"
+  },
+  "homepage": "https://github.com/ClearSkyRUS/ezmanger#readme"
 }

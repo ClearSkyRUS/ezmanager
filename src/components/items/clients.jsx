@@ -1,16 +1,15 @@
 import React from 'react';
-import { Button, Image, List, Icon, Popup, Modal, Label } from 'semantic-ui-react';
+import { Button, Image, List, Icon, Modal, Label } from 'semantic-ui-react';
 import Loader from 'components/loader/loader';
-import axios from 'axios';
 import { ClientModalContent } from '../popupContent/client';
 
-const ClientItem = ({ client, onUp, onRemove }) => (
+const ClientItem = ({ client, onUp, onRemove, ApiPath }) => (
     <List.Item>
       <List.Content floated='right'>
         <Modal trigger={<Button size='small' circular icon='edit' />} closeIcon>
           <Modal.Header>Удалить/изменить клиента</Modal.Header>
           <Modal.Content scrolling>
-            <ClientModalContent client = {client} onUp = {onUp} onRemove = {onRemove} />
+            <ClientModalContent client = {client} onUp = {onUp} onRemove = {onRemove} ApiPath={ApiPath} />
           </Modal.Content>
         </Modal>
       </List.Content>
@@ -43,26 +42,26 @@ const ClientItem = ({ client, onUp, onRemove }) => (
     </List.Item>
 )
 
-const ListClients = ({ clients, onAdd, onUp, onRemove }) => {
+const ListClients = ({ clients, onAdd, onUp, onRemove, ApiPath }) => {
   if (clients)
   return(
     <div>
       <List divided verticalAlign='middle'>
           {clients.map((client, i) =>
-            <ClientItem key={i} client = {client} onUp = {onUp} onRemove = {onRemove} /> )}
+            <ClientItem key={i} ApiPath={ApiPath} client = {client} onUp = {onUp} onRemove = {onRemove} /> )}
       </List>
-      <AddNewPopupButton onAdd = {onAdd} />
+      <AddNewPopupButton onAdd = {onAdd} ApiPath={ApiPath} />
     </div>
   )
   return ( <Loader /> )
 }
 
-const AddNewPopupButton = ({ onAdd }) => {
+const AddNewPopupButton = ({ onAdd, ApiPath }) => {
   return (
      <Modal trigger={<Button className = "addTogler" circular color='google plus' icon='plus' />} closeIcon>
       <Modal.Header>Новый клиент</Modal.Header>
       <Modal.Content scrolling>
-        <ClientModalContent onAdd = {onAdd} />
+        <ClientModalContent onAdd = {onAdd} ApiPath={ApiPath} />
       </Modal.Content>
     </Modal>
    )

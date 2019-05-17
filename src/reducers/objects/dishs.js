@@ -1,12 +1,17 @@
 const InitState = {
 	items: null,
+	types: null,
+	products: null
 };
 
 export default (state = InitState, action) => {
 	switch (action.type) {
 		case 'SET_DISHS':
+			console.log(action.payload)
 			return {
-				items: action.payload
+				items: action.payload.dishs,
+				types: action.payload.types,
+				products: action.payload.products
 			};
 		case 'REMOVE_DISH':
 			return {

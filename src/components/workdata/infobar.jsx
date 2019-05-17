@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, Label, Segment, Input, Button } from 'semantic-ui-react'
+import { Icon, Segment, Input, Button } from 'semantic-ui-react'
 
 const InfoBar = ({workdata, dayscount, setDaysCount, refreshData, generatePDF, generateMenu }) => (
 	<Segment.Inline>

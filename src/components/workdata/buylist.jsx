@@ -3,12 +3,14 @@ import { List, Label, Checkbox, Icon, Header } from 'semantic-ui-react'
 
 const BuyList = ({buylist, setChecked}) => (
 	<div>
+		 
+		<Label basic style={{ width: "150px", textAlign: "center" }} >{'Сумма: ' + buylist.totalPrice.toFixed(0) + ' '}<Icon name='rub' /></Label>
 		<List>
 			{buylist.products.filter(o => o.gramneed !== o.gramhave).map((product, i) => 
 				<PrioductItem key={i} product={product} setChecked={setChecked} />
 			)}
 		</List>
-		 <Header as='h3' dividing>
+		 <Header as='h3' color='green' dividing>
 		   Куплено:
 		  </Header>
 		<List>

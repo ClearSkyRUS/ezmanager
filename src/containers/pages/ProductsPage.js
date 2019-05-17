@@ -3,14 +3,16 @@ import ProductsPage from 'components/pages/ProductsPage'
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ProductsActions  from 'actions/products';
+import ItemsActions  from 'actions/items';
+const ApiPath = 'products';
+
 
 class ProductsListContainer extends React.Component {
 	render() {
 		const { products } = this.props;
 		if (!products) {
-			const { fetchProducts } = this.props;
-			fetchProducts();
+			const { fetchItems } = this.props;
+			fetchItems(ApiPath);
 		}
 		return <ProductsPage {...this.props} />
 	}
@@ -36,11 +38,12 @@ const sortBySerch = (items, filter) => {
 
 const mapStateToProps = ({ products, filter }) => ({
 	products: products.items && sortBy(products.items, filter ),
-  	allProducts: products.items
+  	allProducts: products.items,
+  	ApiPath: ApiPath
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(ProductsActions, dispatch),
+  ...bindActionCreators(ItemsActions, dispatch),
 });
 
 

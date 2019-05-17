@@ -1,22 +1,23 @@
 const justDayMas = [ 
           {
             title: 'Завтрак',
+            procent: 20,
             meal: [
               {
                 type: 'Каша',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Запеканка',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Белковый',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               }
@@ -24,16 +25,17 @@ const justDayMas = [
           },
            {
             title: 'Ланч',
+            procent: 20,
             meal: [
               {
                 type: 'Смузи',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Суп',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               }
@@ -41,94 +43,98 @@ const justDayMas = [
           },
            {
             title: 'Обед',
+            procent: 20,
             meal: [
               {
                 type: 'Основной рыбный',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
                {
                 type: 'Основной мясной',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Белковый',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               }
             ]
           }, {
             title: 'Перекус',
+            procent: 20,
             meal: [
               {
                 type: 'Орехи',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Фрукты',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Салат',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               }
             ]
           }, {
             title: 'Полдник',
+            procent: 20,
             meal: [
               {
                 type: 'Основной',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Альтернативный',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Белковый',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               }
             ]
           }, {
             title: 'Ужин',
+            procent: 20,
             meal: [
               {
                 type: 'Салат рыбный',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Салат мясной',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Горячий мясной',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },
               {
                 type: 'Горячий рыбный',
-                main: 0,
+                main: false,
                  image: '',
                 dishs: []
               },

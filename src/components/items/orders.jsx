@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Image, List, Icon, Popup, Modal, Label } from 'semantic-ui-react';
+import { Button, List, Icon, Modal, Label } from 'semantic-ui-react';
 import Loader from 'components/loader/loader';
 import { OrderModalContent } from '../popupContent/order';
 
 
-const OrderItem = ({ order, clients, programs, onUp, onRemove }) => {
+const OrderItem = ({ order, clients, programs, onUp, onRemove, ApiPath }) => {
 
   return (
     <List.Item>
@@ -12,7 +12,7 @@ const OrderItem = ({ order, clients, programs, onUp, onRemove }) => {
         <Modal trigger={<Button size='small' circular icon='edit' />} closeIcon>
           <Modal.Header>Удалить/изменить заказ</Modal.Header>
           <Modal.Content scrolling>
-            <OrderModalContent order={order} clients = {clients} programs = {programs} onUp = {onUp} onRemove = {onRemove}  />
+            <OrderModalContent order={order} clients = {clients} programs = {programs} onUp = {onUp} onRemove = {onRemove} ApiPath={ApiPath} />
           </Modal.Content>
         </Modal>
       </List.Content>
@@ -24,13 +24,13 @@ const OrderItem = ({ order, clients, programs, onUp, onRemove }) => {
       </List.Content>
       <List.Content>
          <Button.Group size='mini'>
-          <Button negative onClick={onUp.bind(this, order, "Не оплачен")} basic={order.status !== "Не оплачен"} >
+          <Button negative onClick={onUp.bind(this, ApiPath, order._id, {status: "Не оплачен"})} basic={order.status !== "Не оплачен"} >
             Не оплачен
           </Button>
-          <Button color='yellow' onClick={onUp.bind(this, order, "Оплачен")}  basic={order.status !== "Оплачен"} >
+            <Button color='yellow' onClick={onUp.bind(this, ApiPath, order._id, {status: "Оплачен"})}  basic={order.status !== "Оплачен"} >
             Оплачен
           </Button>
-          <Button positive onClick={onUp.bind(this, order, "Завершен")} basic={order.status !== "Завершен"}>
+            <Button positive onClick={onUp.bind(this, ApiPath, order._id, {status: "Завершен"})} basic={order.status !== "Завершен"}>
             Завершен
           </Button>
         </Button.Group>
@@ -54,26 +54,26 @@ const OrderItem = ({ order, clients, programs, onUp, onRemove }) => {
     </List.Item>
 )}
 
-const OrdersList = ({ orders, clients, programs, onAdd, onUp, onRemove }) => {
-  if (orders && programs && clients)
-  return(
-    <div>
-      <List divided verticalAlign='middle'>
-          {orders.map((order, i) =>
-            <OrderItem key={i} order = {order} clients = {clients} programs = {programs} onUp={onUp} onRemove ={onRemove} /> )}
-      </List>
-      <AddNewPopupButton clients = {clients} programs = {programs} onAdd={onAdd}  />
-    </div>
-  )
-return ( <Loader /> )
+const OrdersList = ({ orders, clients, programs, onAdd, onUp, onRemove, ApiPath }) => {
+  if (orders)
+    return(
+      <div>
+        <List divided verticalAlign='middle'>
+            {orders.map((order, i) =>
+              <OrderItem key={i} order = {order} clients = {clients} programs = {programs} onUp={onUp} onRemove ={onRemove} ApiPath={ApiPath} /> )}
+        </List>
+        <AddNewPopupButton clients = {clients} programs = {programs} onAdd={onAdd} ApiPath={ApiPath} />
+      </div>
+    )
+  return ( <Loader /> ) 
 }
 
-const AddNewPopupButton = ({clients, programs, onAdd}) => {
+const AddNewPopupButton = ({clients, programs, onAdd, ApiPath}) => {
   return (
     <Modal trigger={<Button className = "addTogler" circular color='google plus' icon='plus' />} closeIcon>
       <Modal.Header>Новый заказ</Modal.Header>
       <Modal.Content scrolling>
-        <OrderModalContent clients = {clients} programs = {programs} onAdd={onAdd}  />
+        <OrderModalContent clients = {clients} programs = {programs} onAdd={onAdd} ApiPath={ApiPath}  />
       </Modal.Content>
     </Modal>
    )

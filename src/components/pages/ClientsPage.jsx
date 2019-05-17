@@ -1,15 +1,16 @@
 import React from 'react';
+import uniqBy from 'lodash/uniqBy';
 import Filter from 'containers/filter';
 import ListClients from 'components/items/clients';
 import { Segment } from 'semantic-ui-react';
 
-const ClientsPage = ({ allClients, clients, setClients, fetchRemoveClient, fetchAddClient, fetchUpClient  }) => (
+const ClientsPage = ({ allClients, clients, ApiPath, setClients, fetchRemoveItem, fetchAddItem, fetchUpItem  }) => (
                   <div>
                     <Segment>
-                      <Filter items = {allClients} />
+                      <Filter />
                     </Segment>
                     <Segment>
-  						<ListClients clients = {clients} onRemove = {fetchRemoveClient} onAdd = {fetchAddClient} onUp = {fetchUpClient} />
+  						<ListClients clients = {clients} ApiPath={ApiPath} onRemove = {fetchRemoveItem} onAdd = {fetchAddItem} onUp = {fetchUpItem} />
                     </Segment>
                   </div>
 );

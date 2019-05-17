@@ -1,34 +1,33 @@
 import React from 'react'
-import { List, Label, Checkbox, Icon, Header, Card } from 'semantic-ui-react'
+import { List, Label, Card } from 'semantic-ui-react'
 
 const PortionsList = ({programs, dishs}) => (
-	<Card.Group centered>
+	<List celled>
 		{programs.map((program, i) => 
 			<ProgramCard key={i} program={program} dishs={dishs} />
 		)}
-	</Card.Group>
+	</List>
 )
 
 const ProgramCard = ({program, dishs}) => (
-	<Card>
-	    <Card.Content>
-	      <Card.Header>{program.title + " " + program.option}</Card.Header>
-	      <Card.Meta>
-	        {"Кол-во: " + program.count + " День: " + (program.day+1)}
-	      </Card.Meta>
-	      <Card.Description>
-	      	<List divided  verticalAlign='middle'>
+	<List.Item>
+		<List.Header>{program.title + " " + program.option + " "} 
+			<span style={{fontSize: '12px', color: 'rgba(0,0,0,.4)'}}className='date'>
+				{" Кол-во: " + program.count + ",  " + (program.day.title)}
+			</span>
+		</List.Header>
+	    <List.Content>
+	      	<List celled horizontal>
 	   			{program.meals.map((meal, j) =>
 	   				<MealCard key={j} meal={meal} dishs={dishs} />
 	   			)}
 	      	</List>
-	      </Card.Description>
-	    </Card.Content>
-	</Card>
+	    </List.Content>
+	</List.Item>
 )
 
 const MealCard = ({ meal, dishs}) => (
-	<List.Item>
+	<List.Item style={{ verticalAlign: 'top', marginBottom: '20px', borderTop: '#4183c4 solid', width: '280px'}}>
 	    <List.Content>
 	   	 	<List.Header>{meal.title}</List.Header>
 	    </List.Content>
@@ -57,11 +56,13 @@ const DishsItem = ({mealItem, dishs}) => (
 const DishItem = ({dish, dishs}) => (
 	<List.Item style={{ paddingBottom: "10px" }} >
 		<List.Content floated='right'>
-			<Label size='small' basic style={{ width: "70px", textAlign: "right" }} >{dish.gram.toFixed(0) + " Гр "}</Label>
+			<Label size='small' basic style={{ width: "70px", textAlign: "right" }} >
+			 {(dish.count) ? (dish.count + " Шт") : (dish.gram.toFixed(0) + " Гр")}
+			</Label>
 		</List.Content>
 	    <List.Content>
 	    	<List.Icon name='utensils' />
-	      	{dishs.find(x => x.id === dish.id).title}
+	      	{dish.dish.title}
 	    </List.Content>
 	</List.Item>
 )

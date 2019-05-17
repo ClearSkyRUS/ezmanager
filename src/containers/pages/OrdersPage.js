@@ -3,41 +3,31 @@ import OrdersPage from 'components/pages/OrdersPage'
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import actionsOrders  from 'actions/orders';
-import actionsClients  from 'actions/clients';
-import actionsPrograms  from 'actions/programs';
+import ItemsActions  from 'actions/items';
+
+const ApiPath = 'orders';
 
 class OrdersListContainer extends React.Component {
 	render() {
-		const { programs, orders, clients } = this.props;
-		if (!programs){
-			const { fetchPrograms } = this.props;
-			fetchPrograms();
-		}
-		if (!orders) {
-			const { fetchOrders } = this.props;
-			fetchOrders();
-		}
-		if (!clients) {
-			const { fetchClients } = this.props;
-			fetchClients();
+		const { orders } = this.props;
+		if (!orders){
+			const { fetchItems } = this.props;
+			fetchItems(ApiPath);
 		}
 		return <OrdersPage {...this.props} />
 	}
-
 }
 
 
-const mapStateToProps = ({ orders, clients, programs}) => ({
+const mapStateToProps = ({ orders}) => ({
   	orders: orders.items,
-  	clients: clients.items,
-  	programs: programs.items
+  	clients: orders.clients,
+  	programs: orders.programs,
+  	ApiPath: ApiPath
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(actionsOrders, dispatch),
-   ...bindActionCreators(actionsClients, dispatch),
-   ...bindActionCreators(actionsPrograms, dispatch)
+  ...bindActionCreators(ItemsActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersListContainer);

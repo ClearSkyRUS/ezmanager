@@ -1,12 +1,15 @@
 const InitState = {
 	items: null,
+	dishs: null
 };
 
 export default (state = InitState, action) => {
 	switch (action.type) {
 		case 'SET_DAYS':
+			console.log(action.payload)
 			return {
-				items: action.payload
+				items: action.payload.days,
+				dishs: action.payload.dishs
 			};
 		case 'REMOVE_DAY':
 			return {

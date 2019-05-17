@@ -19,7 +19,7 @@ class WorkDataContainer extends React.Component {
 			const { fetchWorkData } = this.props;
 			fetchWorkData(dayscount);
 		}
-		return <MainPage {...this.props} generateMenu={generateMenu.bind(this)} generatePDF={generatePDF.bind(this)} refreshData={refreshData.bind(this)} setDaysCount={setDaysCount.bind(this)} setCheckBox = {setCheckBox.bind(this)} />
+		return <MainPage {...this.props} setDishReady={setDishReady.bind(this)} showHideTechMap={showHideTechMap.bind(this)} generateMenu={generateMenu.bind(this)} generatePDF={generatePDF.bind(this)} refreshData={refreshData.bind(this)} setDaysCount={setDaysCount.bind(this)} setCheckBox = {setCheckBox.bind(this)} />
 	}
 
 }
@@ -30,14 +30,26 @@ function setCheckBox(product) {
          this.setState({});
 }
 
+function setDishReady(dish) {
+         const { setDishReady } = this.props;
+         setDishReady(dish);
+         this.setState({});
+}
+
+function showHideTechMap(dish) {
+         const { showHideTechMap } = this.props;
+         showHideTechMap(dish);
+         this.setState({});
+}
+
 function setDaysCount(count) {
          const { SetDaysCount } = this.props;
          SetDaysCount(count);
 }
 
 function refreshData() {
-         const { fetchWorkData, dayscount } = this.props;
-         fetchWorkData(dayscount);
+        const { fetchWorkData, dayscount } = this.props;
+        fetchWorkData(dayscount);
 }
 
 const months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентебря', 'Октября', 'Ноября', 'Декабря'];
@@ -48,8 +60,9 @@ function generateMenu () {
 	  .then(logo => {
 	  		imgTobase64('background.png')
 	  			.then(background => {
-		  	var tomDay = workdata.DaysInfo.dayTom
+		  	var tomDay = 7
 		  	var Days = workdata.DaysInfo.days
+		  	console.log(Days)
 			var docDefinition = {
 				pageSize: 'A4',
 				background: [
@@ -80,9 +93,9 @@ function generateMenu () {
 					}
 				}
 			};
-			var data = new Date();
+
 			for (var i = 0; i<7; i++) {
-				data.setDate(data.getDate() + 1)
+				var data = new Date(Days[tomDay].date)
 				var MenuHeader = [
 					{image: logo, margin: [0, 0, 0, 0], width: 80, alignment: 'center'},
 					{
@@ -96,12 +109,14 @@ function generateMenu () {
 					style: 'header',
 					ul: []
 				}
-				for (var meal of Days[tomDay].meals) {
+				for (var meal of Days[tomDay].day.meals) {
 					var TextList = ''
-					for (var dishs of meal.meal.find(x => x.main === 1).dishs) {
-						TextList += dishs.value
+					for (var dishs of meal.meal.find(x => x.main === true).dishs) {
+						((meal.meal.find(x => x.main === true).dishs.indexOf(dishs) !== 0 )
+							? TextList += dishs.dish.title.toLowerCase()
+							: TextList += dishs.dish.title)
 
-						if (meal.meal.find(x => x.main === 1).dishs.length !== meal.meal.find(x => x.main === 1).dishs.indexOf(dishs) + 1)
+						if (meal.meal.find(x => x.main === true).dishs.length !== meal.meal.find(x => x.main === true).dishs.indexOf(dishs) + 1)
 							TextList += ', '
 					}
 					var listItem = { text: TextList, style: 'menuItem' }
@@ -109,9 +124,6 @@ function generateMenu () {
 				}
 
 				tomDay++;
-				if (tomDay === Days.length)
-					tomDay=0;
-
 				docDefinition.content.push(list)
 				var pageBreak = {
 					text: '',
@@ -136,23 +148,23 @@ function generatePDF() {
 			 		style: 'footertext'
 			 	}],
 		defaultStyle: {
-	    	fontSize: 10
+	    	fontSize: 8
 	  	},
 	  	styles: {
 			header: {
-				fontSize: 18,
+				fontSize: 14,
 				bold: true,
 				alignment: 'right',
 				width: 150,
 				margin: [0, 5, 0, 0],
 			},
 			subheader: {
-				fontSize: 14,
+				fontSize: 12,
 				bold: true,
 				margin: [0, 10, 0, 0],
 			},
 			menuheader: {
-				fontSize: 18,
+				fontSize: 14,
 				bold: true,
 				alignment: 'center',
 				margin: [0, 10, 0, 0],
@@ -167,7 +179,7 @@ function generatePDF() {
 				alignment: 'center'
 			},
 			payinfo: {
-				fontSize: 10,
+				fontSize: 8,
 				alignment: 'right'
 			}
 		}
@@ -186,7 +198,7 @@ function generatePDF() {
 			 		]
 			 	},
 			 	{ 
-			 		text: 'Ваша программа: ' +  workdata.Programs.find(x => x.id === order.program).title + " " +  order.option, 
+			 		text: 'Ваша программа: ' +  order.program.title + " " +  order.option, 
 			 		style: 'subheader'
 			 	},
 		 		{
@@ -208,7 +220,7 @@ function generatePDF() {
 		 	var dishsTab = {
 				table: {
 					headerRows: 1,
-					widths: [50, '*', 30, 33, 28, 28, 28],
+					widths: [35, '*', 30, 30, 24, 24, 24],
 					body: [
 						[{text: 'Прием пищи', style: 'tableheader'}, {text: 'Блюдо', style: 'tableheader'}, {text: 'Порция', style: 'tableheader'}, {text: 'Ккал', style: 'tableheader'}, {text: 'Белки', style: 'tableheader'}, {text: 'Жиры', style: 'tableheader'}, {text: 'Углев.', style: 'tableheader'}]
 					]
@@ -216,7 +228,7 @@ function generatePDF() {
 					margin: [0, 10, 0, 0],
 					layout: 'lightHorizontalLines'
 			}
-			for (var meal of workdata.Programs.find(x => x.id === order.program && x.option === order.option && x.day === order.day).meals) {
+			for (var meal of order.program.options.find(o => o.cal === order.option).days.find(o => o.title === order.day.title).meals) {
 				var mealRow = []
 				var countDishs = 0;
 				for (var dishs of meal.meal){
@@ -228,7 +240,7 @@ function generatePDF() {
 				for (var dishs of meal.meal){
 					for (var dish of dishs.dishs) {
 						mealRow.push(
-							workdata.DishsToCook.find(x => x.id === dish.id).title, 
+							dish.dish.title, 
 							{ alignment:'right', text: (dish.gram.toFixed(0) + " Гр")}, 
 							{ alignment:'right', text: (dish.cal.toFixed(0)+ " К")}, 
 							{ alignment:'right', text: (dish.prot.toFixed(0)+ " Б")}, 
@@ -243,10 +255,10 @@ function generatePDF() {
 				{colSpan: 3, text: 'Итого:', alignment: 'right', bold: true}, 
 				'',
 				'',
-				{ alignment:'right', text: (workdata.Programs.find(x => x.id === order.program && x.option === order.option && x.day === order.day).meals.reduce((cal, meal) => cal + meal.cal, 0).toFixed(0) + " К")},
-				{ alignment:'right', text: (workdata.Programs.find(x => x.id === order.program && x.option === order.option && x.day === order.day).meals.reduce((prot, meal) => prot + meal.prot, 0).toFixed(0) + " Б")},
-				{ alignment:'right', text: (workdata.Programs.find(x => x.id === order.program && x.option === order.option && x.day === order.day).meals.reduce((fat, meal) => fat + meal.fat, 0).toFixed(0) + " Ж")},
-				{ alignment:'right', text: (workdata.Programs.find(x => x.id === order.program && x.option === order.option && x.day === order.day).meals.reduce((carb, meal) => carb + meal.carb, 0).toFixed(0) + " У")}
+				{ alignment:'right', text: (order.program.options.find(o => o.cal === order.option).days.find(o => o.title === order.day.title).meals.reduce((cal, meal) => cal + meal.cal, 0).toFixed(0) + " К")},
+				{ alignment:'right', text: (order.program.options.find(o => o.cal === order.option).days.find(o => o.title === order.day.title).meals.reduce((prot, meal) => prot + meal.prot, 0).toFixed(0) + " Б")},
+				{ alignment:'right', text: (order.program.options.find(o => o.cal === order.option).days.find(o => o.title === order.day.title).meals.reduce((fat, meal) => fat + meal.fat, 0).toFixed(0) + " Ж")},
+				{ alignment:'right', text: (order.program.options.find(o => o.cal === order.option).days.find(o => o.title === order.day.title).meals.reduce((carb, meal) => carb + meal.carb, 0).toFixed(0) + " У")}
 			]
 			dishsTab.table.body.push(sumRow)
 			content.push(dishsTab)
@@ -265,7 +277,7 @@ function generatePDF() {
 			 		style: 'payinfo'
 			 	},
 			 	{
-			 		text: ('К оплате' +   ((order.orderData.totalsale) ? (' (с учетом скидки ' + order.orderData.totalsale + '%): ') : ': ') + order.orderData.totalprice + ' Руб'),
+			 		text: ('К оплате' +   ((order.orderData.totalsale) ? (' (с учетом скидки ' + order.orderData.totalsale + '%): ') : ': ') + order.orderData.totalprice.toFixed(0) + ' Руб'),
 			 		style: 'payinfo'
 			 	},
 			 	{

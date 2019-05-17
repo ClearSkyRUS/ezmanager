@@ -1,29 +1,28 @@
 const InitState = {
 	items: null,
-	programs: null,
-	clients: null
 };
 
 export default (state = InitState, action) => {
 	switch (action.type) {
-		case 'SET_ORDERS':
-			console.log(action.payload)
+		case 'SET_DISHTYPES':
 			return {
-				items: action.payload.orders.reverse(),
-				programs: action.payload.programs,
-				clients: action.payload.clients
+				items: action.payload
 			};
-		case 'REMOVE_ORDER':
+		case 'REMOVE_DISHTYPE':
 			return {
 				...state,
 				items: state.items.filter(item => item._id !== action.payload)
 			};
-		case 'ADD_ORDER':
+		case 'ADD_DISHTYPE':
+			if (action.payload.type === 'Другой')
+				action.payload.type = action.payload.otherType;
 			return {
 				...state,
-				items: [ action.payload, ...state.items]
+				items: [...state.items, action.payload]
 			};
-		case 'CHANGE_ORDER':
+		case 'CHANGE_DISHTYPE':
+			if (action.payload.type === 'Другой')
+				action.payload.type = action.payload.otherType;
 			return {
 				...state, 
 			        items: state.items.map(item => {
@@ -37,4 +36,4 @@ export default (state = InitState, action) => {
 		default:
 			return state;
 	}
-};
+} ;

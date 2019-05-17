@@ -1,29 +1,27 @@
 const InitState = {
-	items: null,
-	programs: null,
-	clients: null
+	items: null
 };
 
 export default (state = InitState, action) => {
 	switch (action.type) {
-		case 'SET_ORDERS':
+		case 'SET_DAYSQUERYS':
 			console.log(action.payload)
 			return {
-				items: action.payload.orders.reverse(),
-				programs: action.payload.programs,
-				clients: action.payload.clients
-			};
-		case 'REMOVE_ORDER':
+				items: action.payload
+			};  
+		case 'REMOVE_DAYSQUERY':
 			return {
 				...state,
 				items: state.items.filter(item => item._id !== action.payload)
 			};
-		case 'ADD_ORDER':
+		case 'ADD_DAYSQUERY':
+			if (action.payload.type === 'Другой')
+				action.payload.type = action.payload.otherType;
 			return {
 				...state,
-				items: [ action.payload, ...state.items]
+				items: [...state.items, action.payload]
 			};
-		case 'CHANGE_ORDER':
+		case 'CHANGE_DAYSQUERY':
 			return {
 				...state, 
 			        items: state.items.map(item => {
@@ -37,4 +35,4 @@ export default (state = InitState, action) => {
 		default:
 			return state;
 	}
-};
+} ;

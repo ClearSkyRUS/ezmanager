@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://35.167.225.201/API/';
+axios.defaults.baseURL = 'http://localhost:3333/API/';
 
-export default axios;
+export default axios; 

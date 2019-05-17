@@ -1,12 +1,15 @@
 const InitState = {
 	items: null,
+	settings: null
 };
 
 export default (state = InitState, action) => {
 	switch (action.type) {
 		case 'SET_PROGRAMS':
+			console.log(action.payload)
 			return {
-				items: action.payload
+				items: action.payload.programs,
+				settings: action.payload.settings
 			};
 		case 'REMOVE_PROGRAM':
 			return {
