@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+
+    ezmanager:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+        image: ezmanager
+        container_name: ezmanager
+        restart: always
+        ports:
+            - 3000:3000
