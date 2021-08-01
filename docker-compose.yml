@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.3"
 
 services:
 
@@ -11,3 +11,12 @@ services:
         restart: always
         ports:
             - 3000:3000
+
+     webserver:
+        image: nginx:mainline-alpine
+        container_name: webserver
+        restart: always
+        ports:
+            - '80:80'
+        volumes:
+            - ./nginx-conf:/etc/nginx/conf.d
