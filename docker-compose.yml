@@ -1,7 +1,6 @@
 version: "3.3"
 
 services:
-
     ezmanager:
         build:
             context: ./
@@ -11,12 +10,11 @@ services:
         restart: always
         ports:
             - 3000:3000
-
-     webserver:
+    webserver:
         image: nginx:mainline-alpine
         container_name: webserver
         restart: always
         ports:
-            - '80:80'
+            - 80:80
         volumes:
             - ./nginx-conf:/etc/nginx/conf.d
